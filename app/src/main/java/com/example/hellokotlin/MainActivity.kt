@@ -7,8 +7,13 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hellokotlin.api.SearchResult
+import com.example.hellokotlin.api.createGitHubApiService
 import com.example.hellokotlin.models.Repo
 import com.example.hellokotlin.reposlist.ReposAdapter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     val adapter = ReposAdapter()
@@ -21,13 +26,16 @@ class MainActivity : AppCompatActivity() {
         list.layoutManager = LinearLayoutManager(this);
         list.adapter = adapter
 
-        var sampleData = mutableListOf<Repo>(
-        )
+        val service = createGitHubApiService()
+        service.searchRepositories("user:ReactNativeC").enqueue(object: Callback<SearchResult>{
+            override fun onFailure(call: Call<SearchResult>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
 
-        for (i in 0..1000) {
-            sampleData.add(i, Repo("Repo " + i))
-        }
-
-        adapter.submitList(sampleData)
+            override fun onResponse(call: Call<SearchResult>, response: Response<SearchResult>) {
+                val repos = response.body()?.items.orEmpty()
+                adapter.submitList(repos)
+            }
+        })
     }
 }
