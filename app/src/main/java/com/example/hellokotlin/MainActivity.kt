@@ -1,5 +1,7 @@
 package com.example.hellokotlin
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,6 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.hellokotlin.activities.RepoDetailActivity
 import com.example.hellokotlin.api.SearchResult
 import com.example.hellokotlin.api.createGitHubApiService
 import com.example.hellokotlin.models.Repo
@@ -23,10 +26,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         adapter = ReposAdapter {repo ->
-            Toast.makeText(this, repo.name, Toast.LENGTH_SHORT).show()
+            var repoDetailActivity = Intent(this,RepoDetailActivity::class.java)
+
+            repoDetailActivity.putExtra("name", repo.name)
+            repoDetailActivity.putExtra("owner_name", repo.owner.login)
+
+            this.startActivity(repoDetailActivity)
         }
 
-        var list: RecyclerView = findViewById(R.id.list);
+        var list: RecyclerView = findViewById(R.id.list)
         list.layoutManager = LinearLayoutManager(this);
         list.adapter = adapter
 
