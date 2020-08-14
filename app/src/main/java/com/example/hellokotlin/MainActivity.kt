@@ -26,12 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         adapter = ReposAdapter {repo ->
-            var repoDetailActivity = Intent(this,RepoDetailActivity::class.java)
-
-            repoDetailActivity.putExtra("name", repo.name)
-            repoDetailActivity.putExtra("owner_name", repo.owner.login)
-
-            this.startActivity(repoDetailActivity)
+          RepoDetailActivity.startActivity(this, repo)
         }
 
         var list: RecyclerView = findViewById(R.id.list)
