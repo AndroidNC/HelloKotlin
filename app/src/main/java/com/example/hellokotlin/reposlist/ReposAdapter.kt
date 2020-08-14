@@ -12,10 +12,10 @@ import com.example.hellokotlin.models.Repo
 
 class RepoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val name: TextView = view.findViewById(R.id.name)
-    private val ownerName: TextView = view.findViewById(R.id.owner_login)
+    private val ownerName: TextView = view.findViewById(R.id.owner_name)
     fun bind(repo: Repo) {
         name.text = repo.name
-        ownerName.text = repo.owner.login
+        ownerName.text = "@" + repo.owner.login
     }
 }
 val diffCallBack = object: DiffUtil.ItemCallback<Repo>() {
